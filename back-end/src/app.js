@@ -3,6 +3,7 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const express = require("express");
+const cors = require("cors");
 
 
 const errorHandler = require("./errors/errorHandler");
@@ -12,7 +13,7 @@ const scoresRouter = require("./scores/scores.router");
 
 const app = express();
 
-
+app.use(cors());
 app.use(express.json());
 
 app.use("/questions", questionsRouter);

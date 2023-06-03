@@ -97,7 +97,6 @@ module.exports = {
   update:[
     asyncErrorBoundary(questionExists),
     asyncErrorBoundary(hasRequiredProperties),
-    asyncErrorBoundary(hasOnlyValidProperties),
     asyncErrorBoundary(update)
   ],
   delete:[

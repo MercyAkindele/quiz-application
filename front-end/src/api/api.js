@@ -24,34 +24,34 @@ async function fetchJson(url, options, onCancel){
 //get a list of all questions
 export async function getAllQuestions(signal){
   const url = `${API_BASE_URL}/questions`;
-  return await fetchJson(url, {signal}, [])
+  return await fetchJson(url, {signal}, {})
 }
 
 //creates a new question
-export async function createQuestion(question, signal){
+export async function createQuestion(data, signal){
   const url = `${API_BASE_URL}/questions`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({question}),
+    body: JSON.stringify({data}),
     signal,
   };
-  return await fetchJson(url, options, question);
+  return await fetchJson(url, options, data);
 }
 export async function readQuestion(question_id, signal){
   const url = `${API_BASE_URL}/questions/${question_id}`;
   return await fetchJson(url, {signal}, {})
 }
 //updates a question
-export async function updateQuestion(question, signal){
-  const url = `${API_BASE_URL}/questions/${question.question_id}`;
+export async function updateQuestion(data, signal){
+  const url = `${API_BASE_URL}/questions/${data.question_id}`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({question}),
+    body: JSON.stringify({data}),
     signal,
   };
-  return await fetchJson(url, options, question);
+  return await fetchJson(url, options, data);
 }
 //deletes a question
 export async function deleteQuestion(question_id, signal){
@@ -62,15 +62,15 @@ export async function deleteQuestion(question_id, signal){
   };
   return await fetchJson(url, options, []);
 }
-export async function postQuizScore(score, signal){
+export async function postQuizScore(data, signal){
   const url = `${API_BASE_URL}/scores`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({score}),
+    body: JSON.stringify({data}),
     signal,
   };
-  return await fetchJson(url, options, score);
+  return await fetchJson(url, options, data);
 }
 //get a list of all scores
 export async function getAllScores(signal){

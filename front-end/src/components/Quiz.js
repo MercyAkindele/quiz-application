@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
-import { getAllQuestions,postQuizScore } from "../api/api";
+import { getAllQuestions, postQuizScore } from "../api/api";
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
+  const [displayScore, setDisplayScore]= useState(0);
+  const [finalScore, setFinalScore] = useState(score);
+  const maxClicks = quiz.length-1
+  const [clicks, setClicks]=useState(0)
 
   useEffect(() => {
+    const ac = new AbortController();
     async function listOfQuestions() {
-      const ac = new AbortController();
       try {
         const data = await getAllQuestions(ac.signal);
-        setQuiz(data);
+        console.log("this is data", data)
+        setQuiz(data.questions ? data.questions : []);
       } catch (error) {
         if (error.name === "AbortError") {
           ac.abort();
@@ -19,111 +24,118 @@ export default function Quiz() {
           throw error;
         }
       }
-      return () => ac.abort();
     }
     listOfQuestions();
+    return ()=>{
+      ac.abort();
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("this is final score before setting", finalScore)
+    setFinalScore(Math.floor((score / quiz.length) * 100));
+
+  }, [score, quiz.length]);
+
   const handleAnswerChange = (e) => {
     setSelectedAnswer(e.target.value);
   };
+
   const handleNextClick = () => {
-    if (selectedAnswer === currentQuestion.correct) {
-      setScore(score + 1);
+    console.log("selectedAnswer is:", selectedAnswer);
+    console.log("quiz is:", quiz);
+    console.log("currentIndex is:", currentIndex);
+
+    if (selectedAnswer === quiz[currentIndex].correct) {
+      setScore((score) => score + 1);
     }
-    setCurrentIndex(currentIndex + 1);
+
+    setCurrentIndex((currentIndex) => currentIndex + 1);
     setSelectedAnswer(null);
+    setDisplayScore(Math.floor((score/(currentIndex))*100))
   };
 
-  const handleFinalClick = () =>{
-    if (selectedAnswer === currentQuestion.correct) {
-      setScore(score + 1);
+  const handleFinalClick = () => {
+    if (selectedAnswer === quiz[currentIndex].correct) {
+      setScore((score) => score + 1);
     }
-    const finalScore = (score/quiz.length)*100
-    const saveFinalScore = async () =>{
-      const ac = new AbortController();
-      try{
-        await postQuizScore(finalScore, ac.signal)
-      }catch(error){
-        if(error.name === "AbortError"){
+    if(clicks < maxClicks){
+      setClicks((clicks => clicks + 1))
+    }
+
+    const ac = new AbortController();
+
+    const saveFinalScore = async () => {
+      try {
+        await postQuizScore({score:finalScore}, ac.signal);
+      } catch (error) {
+        if (error.name === "AbortError") {
           ac.abort();
-        }else{
-          throw error
+        } else {
+          throw error;
         }
       }
-      return () => ac.abort();
-    }
+    };
+
     saveFinalScore();
+
+    return () => {
+      ac.abort();
+    };
+
+  };
+
+  if (quiz.length === 0) {
+    return <div>Loading...</div>;
   }
+
   const currentQuestion = quiz[currentIndex];
-  return (
+
+  return(
     <>
-      <div className="score">score: {(score / (currentIndex + 1)) * 100}</div>
+      <h1>{displayScore}</h1>
+      {displayScore <= 100 &&
+      (<div className="score">
+        Score: {displayScore}
+      </div>)
+      }
       {currentQuestion && (
         <div className="quiz-container" id="quiz">
           <div className="quiz-info">
             <h2>{currentQuestion.question}</h2>
             <ul>
-              <li>
-                <input
-                  type="radio"
-                  id="a"
-                  name="answer"
-                  value="a"
-                  className="answer"
-                  checked={selectedAnswer === "a"}
-                  onChange={handleAnswerChange}
-                />
-                <label htmlFor="a" id="a-text">
-                  {currentQuestion.answer_a}
-                </label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="b"
-                  name="answer"
-                  value="b"
-                  className="answer"
-                  checked={selectedAnswer === "b"}
-                  onChange={handleAnswerChange}
-                />
-                <label htmlFor="b" id="b-text">
-                  {currentQuestion.answer_b}
-                </label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="c"
-                  name="answer"
-                  value="c"
-                  className="answer"
-                  checked={selectedAnswer === "c"}
-                  onChange={handleAnswerChange}
-                />
-                <label htmlFor="c" id="c-text">
-                  {currentQuestion.answer_c}
-                </label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="d"
-                  name="answer"
-                  value="d"
-                  className="answer"
-                  checked={selectedAnswer === "d"}
-                  onChange={handleAnswerChange}
-                />
-                <label htmlFor="d" id="d-text">
-                  {currentQuestion.answer_d}
-                </label>
-              </li>
+              {Object.entries(currentQuestion).map(([key, value]) => {
+                if(key.includes("answer")){
+                  return (
+                    <li key={key}>
+                      <input
+                        type="radio"
+                        id={key}
+                        name="answer"
+                        value={key}
+                        className="answer"
+                        checked={selectedAnswer === key}
+                        onChange={handleAnswerChange}
+                        />
+                        <label htmlFor={key} id={`${key}-text`}>
+                          {value}
+                        </label>
+                    </li>
+                  )
+                }
+                return null;
+              })}
             </ul>
           </div>
-          {currentIndex !== quiz.length-1?<button onClick={handleNextClick}>Next Question</button>:<button type="submit" onSubmit={handleFinalClick}>Final Question</button>}
+          {currentIndex !== quiz.length - 1 ? (
+            <button onClick={handleNextClick}>Next Question</button>
+          ) : (
+            <button type="submit" onClick={handleFinalClick} disabled={clicks >=maxClicks}>
+              Final Question
+            </button>
+          )}
         </div>
       )}
     </>
-  );
+  )
 }

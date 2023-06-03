@@ -19,9 +19,9 @@ export default function QuestionForm({ question_id, formType }) {
       }
       const ac = new AbortController();
       try{
-        const questionInformation = await readQuestion(question_id, ac.signal);
+        const questionInformation = await readQuestion(question_id, ac.signal)
         if(questionInformation){
-          setFormData(questionInformation)
+          setFormData(questionInformation.data)
         }
       }catch(error){
         if(error.name === "AbortError"){
@@ -39,7 +39,9 @@ export default function QuestionForm({ question_id, formType }) {
   const handleChange = (e) => {
     let stateValue = e.target.value;
     setFormData({ ...formData, [e.target.name]: stateValue });
+    console.log("this is formdata", formData)
   };
+
   const handleSubmit = (e) => {
     const ac = new AbortController();
     e.preventDefault();
@@ -49,6 +51,7 @@ export default function QuestionForm({ question_id, formType }) {
           await createFunction();
         } else if (formType === "edit") {
           await editFunction();
+          console.log("this is formdata after waiting for edit function", formData)
         }
       } catch (error) {
         if (error.name === "AbortError") {
@@ -58,9 +61,11 @@ export default function QuestionForm({ question_id, formType }) {
         }
       }
     }
+
     addQuestionToQuiz();
     return () => ac.abort();
   };
+
   const createFunction = async () => {
     const ac = new AbortController();
     try {
@@ -74,9 +79,11 @@ export default function QuestionForm({ question_id, formType }) {
     }
     return () => ac.abort();
   };
+
   const editFunction = async () => {
     const ac = new AbortController();
     try {
+      console.log("this is formdata before posting update", formData)
       await updateQuestion(formData, ac.signal);
     } catch (error) {
       if (error.name === "AbortError") {
@@ -87,6 +94,7 @@ export default function QuestionForm({ question_id, formType }) {
     }
     return ac.abort();
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-info">

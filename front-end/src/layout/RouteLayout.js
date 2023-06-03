@@ -12,7 +12,7 @@ export default function RouteLayout(){
     <Route path="/" element={<LetsTakeAQuiz/>}/>
     <Route path="/questions" element={<ListQuestions/>}/>
     <Route path="/questions/new" element={<CreateQuestion/>}/>
-    <Route path="/questions/question_id/edit" element={<EditQuestion/>}/>
+    <Route path="/questions/:question_id/edit" element={<EditQuestion/>}/>
     <Route path="/quiz" element={<Quiz/>}/>
     <Route path="/scores" element={<ScoreBoard/>}/>
   </Routes>
