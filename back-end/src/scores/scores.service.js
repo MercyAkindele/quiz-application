@@ -8,8 +8,21 @@ function create(score){
     .returning("*")
     .then((createdRecord) => createdRecord[0])
 }
+function read(score_id){
+  return knex("scores")
+    .select("*")
+    .where({score_id})
+    .first();
+}
+function destroy(score_id){
+  return knex("scores")
+    .where({score_id})
+    .del();
+}
 
 module.exports = {
   list,
-  create
+  create,
+  read,
+  delete:destroy,
 }

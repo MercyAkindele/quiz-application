@@ -5,17 +5,14 @@ export default function Quiz() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
-  const [displayScore, setDisplayScore]= useState(0);
-  const [finalScore, setFinalScore] = useState(score);
-  const maxClicks = quiz.length-1
-  const [clicks, setClicks]=useState(0)
+  const [displayScore, setDisplayScore] = useState(0);
 
   useEffect(() => {
     const ac = new AbortController();
     async function listOfQuestions() {
       try {
         const data = await getAllQuestions(ac.signal);
-        console.log("this is data", data)
+        console.log("this is data", data);
         setQuiz(data.questions ? data.questions : []);
       } catch (error) {
         if (error.name === "AbortError") {
@@ -26,16 +23,10 @@ export default function Quiz() {
       }
     }
     listOfQuestions();
-    return ()=>{
+    return () => {
       ac.abort();
-    }
+    };
   }, []);
-
-  useEffect(() => {
-    console.log("this is final score before setting", finalScore)
-    setFinalScore(Math.floor((score / quiz.length) * 100));
-
-  }, [score, quiz.length]);
 
   const handleAnswerChange = (e) => {
     setSelectedAnswer(e.target.value);
@@ -48,26 +39,29 @@ export default function Quiz() {
 
     if (selectedAnswer === quiz[currentIndex].correct) {
       setScore((score) => score + 1);
+      setDisplayScore(Math.floor((score / (currentIndex + 1)) * 100));
+      setCurrentIndex((currentIndex) => currentIndex + 1);
+      setSelectedAnswer(null);
+    } else {
+      setDisplayScore(Math.floor((score / currentIndex) * 100));
+      setCurrentIndex((currentIndex) => currentIndex + 1);
+      setSelectedAnswer(null);
     }
-
-    setCurrentIndex((currentIndex) => currentIndex + 1);
-    setSelectedAnswer(null);
-    setDisplayScore(Math.floor((score/(currentIndex))*100))
   };
 
   const handleFinalClick = () => {
     if (selectedAnswer === quiz[currentIndex].correct) {
       setScore((score) => score + 1);
-    }
-    if(clicks < maxClicks){
-      setClicks((clicks => clicks + 1))
+      setDisplayScore(Math.floor((score / currentIndex) * 100));
+      setCurrentIndex((currentIndex) => currentIndex + 1);
     }
 
     const ac = new AbortController();
 
     const saveFinalScore = async () => {
       try {
-        await postQuizScore({score:finalScore}, ac.signal);
+        const finalScore = Math.floor((score / currentIndex) * 100);
+        await postQuizScore({ score: finalScore }, ac.signal);
       } catch (error) {
         if (error.name === "AbortError") {
           ac.abort();
@@ -82,7 +76,6 @@ export default function Quiz() {
     return () => {
       ac.abort();
     };
-
   };
 
   if (quiz.length === 0) {
@@ -91,21 +84,19 @@ export default function Quiz() {
 
   const currentQuestion = quiz[currentIndex];
 
-  return(
+  return (
     <>
       <h1>{displayScore}</h1>
-      {displayScore <= 100 &&
-      (<div className="score">
-        Score: {displayScore}
-      </div>)
-      }
+      {displayScore <= 100 && (
+        <div className="score">Score: {displayScore}</div>
+      )}
       {currentQuestion && (
         <div className="quiz-container" id="quiz">
           <div className="quiz-info">
             <h2>{currentQuestion.question}</h2>
             <ul>
               {Object.entries(currentQuestion).map(([key, value]) => {
-                if(key.includes("answer")){
+                if (key.includes("answer")) {
                   return (
                     <li key={key}>
                       <input
@@ -116,12 +107,12 @@ export default function Quiz() {
                         className="answer"
                         checked={selectedAnswer === key}
                         onChange={handleAnswerChange}
-                        />
-                        <label htmlFor={key} id={`${key}-text`}>
-                          {value}
-                        </label>
+                      />
+                      <label htmlFor={key} id={`${key}-text`}>
+                        {value}
+                      </label>
                     </li>
-                  )
+                  );
                 }
                 return null;
               })}
@@ -130,12 +121,12 @@ export default function Quiz() {
           {currentIndex !== quiz.length - 1 ? (
             <button onClick={handleNextClick}>Next Question</button>
           ) : (
-            <button type="submit" onClick={handleFinalClick} disabled={clicks >=maxClicks}>
+            <button type="submit" onClick={handleFinalClick}>
               Final Question
             </button>
           )}
         </div>
       )}
     </>
-  )
+  );
 }

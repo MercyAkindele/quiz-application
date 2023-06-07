@@ -77,3 +77,11 @@ export async function getAllScores(signal){
   const url = `${API_BASE_URL}/scores`;
   return await fetchJson(url, {signal}, [])
 }
+export async function deleteScore(score_id, signal){
+  const url = `${API_BASE_URL}/scores/${score_id}`
+  const options = {
+    method: "DELETE",
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}

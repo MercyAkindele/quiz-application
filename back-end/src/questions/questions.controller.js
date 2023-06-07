@@ -72,6 +72,7 @@ async function update(req,res){
   });
 }
 async function destroy(req, res, next) {
+  console.log(res.locals.question.question_id)
   try {
     await questionsService.delete(res.locals.question.question_id);
     res.sendStatus(204);

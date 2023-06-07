@@ -47,12 +47,36 @@ async function scoreBtwn0And100(req,res,next){
   }
   next();
 }
-
+async function scoreExists(req,res,next){
+  let score_id = req.params.score_id;
+  let score = await scoresService.read(score_id);
+  if(score){
+    res.locals.score = score;
+    return next();
+  }
+  return next({
+    status:404,
+    message: `Score id ${score_id}, could not be found.`,
+  })
+}
+async function destroy(req, res, next) {
+  console.log(res.locals.score.score_id)
+  try {
+    await scoresService.delete(res.locals.score.score_id);
+    res.sendStatus(204);
+  } catch (error) {
+    next({ status: 500, message: "Error deleting score" });
+  }
+}
 module.exports ={
   list:asyncErrorBoundary(list),
   create:[
     asyncErrorBoundary(hasOnlyScoreProperty),
     asyncErrorBoundary(scoreBtwn0And100),
     asyncErrorBoundary(createScore)
+  ],
+  delete:[
+    asyncErrorBoundary(scoreExists),
+    asyncErrorBoundary(destroy),
   ]
 }

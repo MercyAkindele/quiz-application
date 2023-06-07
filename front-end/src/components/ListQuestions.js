@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllQuestions } from "../api/api";
+import { getAllQuestions, deleteQuestion} from "../api/api";
 import {Link} from "react-router-dom"
 export default function ListQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -22,6 +22,26 @@ export default function ListQuestions() {
       ac.abort();
     };
   }, []);
+
+
+
+  const handleDelete = async(questionId)=>{
+    const ac = new AbortController();
+    const confirmDelete = window.confirm("Once this question has been deleted, you cannot retrieve it again.")
+    if(confirmDelete){
+      try{
+        await deleteQuestion(questionId, ac.signal);
+      }catch(error){
+        if(error.name === "AbortError"){
+          return ac.abort();
+        }else{
+          throw error
+        }
+      }
+      window.location.reload();
+    }
+  }
+
   return (
     <>
       <h2>Questions</h2>
@@ -36,7 +56,7 @@ export default function ListQuestions() {
               <div>{question.answer_c}</div>
               <div>{question.answer_d}</div>
               <button><Link to={`/questions/${question.question_id}/edit`}>Edit</Link></button>
-              <button>Delete</button>
+              <button onClick={() => handleDelete(question.question_id)}>Delete</button>
             </li>
 
           ))
