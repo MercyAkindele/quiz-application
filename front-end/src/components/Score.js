@@ -45,10 +45,10 @@ export default function ScoreBoard() {
     <>
       <ul>
         {(scores.scores || []).map((score) => (
-          <>
-            <li key={score.score_id}>{score.score}</li>
+          <li key={score.score_id}>
+            <h3>Your Score: {score.score}</h3>
             <button onClick={()=> handleDelete(score.score_id)}>delete</button>
-          </>
+          </li>
         ))}
       </ul>
     </>

@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { getAllQuestions, postQuizScore } from "../api/api";
+import {useNavigate} from "react-router-dom";
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
-  const [displayScore, setDisplayScore] = useState(0);
+  const [count, setCount] = useState(0);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const ac = new AbortController();
@@ -38,21 +40,16 @@ export default function Quiz() {
     console.log("currentIndex is:", currentIndex);
 
     if (selectedAnswer === quiz[currentIndex].correct) {
-      setScore((score) => score + 1);
-      setDisplayScore(Math.floor((score / (currentIndex + 1)) * 100));
-      setCurrentIndex((currentIndex) => currentIndex + 1);
-      setSelectedAnswer(null);
-    } else {
-      setDisplayScore(Math.floor((score / currentIndex) * 100));
-      setCurrentIndex((currentIndex) => currentIndex + 1);
-      setSelectedAnswer(null);
+      setCount((previousCount) => previousCount + 1);
     }
+    setCurrentIndex((currentIndex) => currentIndex + 1);
+    setSelectedAnswer(null);
+
   };
 
-  const handleFinalClick = () => {
+  const handleFinalClick = async () => {
     if (selectedAnswer === quiz[currentIndex].correct) {
-      setScore((score) => score + 1);
-      setDisplayScore(Math.floor((score / currentIndex) * 100));
+      setCount((count) => count + 1);
       setCurrentIndex((currentIndex) => currentIndex + 1);
     }
 
@@ -60,7 +57,9 @@ export default function Quiz() {
 
     const saveFinalScore = async () => {
       try {
-        const finalScore = Math.floor((score / currentIndex) * 100);
+        // const finalScore = Math.floor((count / currentIndex) * 100);
+        const finalScore = Math.floor((count/(quiz.length))*100);
+
         await postQuizScore({ score: finalScore }, ac.signal);
       } catch (error) {
         if (error.name === "AbortError") {
@@ -71,7 +70,8 @@ export default function Quiz() {
       }
     };
 
-    saveFinalScore();
+    await saveFinalScore();
+    navigate("/scores");
 
     return () => {
       ac.abort();
@@ -86,9 +86,9 @@ export default function Quiz() {
 
   return (
     <>
-      <h1>{displayScore}</h1>
-      {displayScore <= 100 && (
-        <div className="score">Score: {displayScore}</div>
+
+      {Math.floor((count/(quiz.length))*100) <= 100 && (
+        <div className="score">Score: {Math.floor((count/(quiz.length))*100)}</div>
       )}
       {currentQuestion && (
         <div className="quiz-container" id="quiz">
