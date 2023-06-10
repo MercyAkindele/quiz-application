@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getAllQuestions, postQuizScore } from "../api/api";
 import {useNavigate} from "react-router-dom";
+import "../styles/quiz.css"
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,29 +51,26 @@ export default function Quiz() {
   const handleFinalClick = async () => {
     if (selectedAnswer === quiz[currentIndex].correct) {
       setCount((count) => count + 1);
-      setCurrentIndex((currentIndex) => currentIndex + 1);
     }
+    setCurrentIndex((currentIndex) => currentIndex + 1);
+    
 
+  };
+  const saveFinalScore = async () => {
     const ac = new AbortController();
+    try {
+      // const finalScore = Math.floor((count / currentIndex) * 100);
+      const finalScore = Math.floor((count/(quiz.length))*100);
 
-    const saveFinalScore = async () => {
-      try {
-        // const finalScore = Math.floor((count / currentIndex) * 100);
-        const finalScore = Math.floor((count/(quiz.length))*100);
-
-        await postQuizScore({ score: finalScore }, ac.signal);
-      } catch (error) {
-        if (error.name === "AbortError") {
-          ac.abort();
-        } else {
-          throw error;
-        }
+      await postQuizScore({ score: finalScore }, ac.signal);
+      navigate("/scores");
+    } catch (error) {
+      if (error.name === "AbortError") {
+        ac.abort();
+      } else {
+        throw error;
       }
-    };
-
-    await saveFinalScore();
-    navigate("/scores");
-
+    }
     return () => {
       ac.abort();
     };
@@ -87,9 +85,10 @@ export default function Quiz() {
   return (
     <>
 
-      {Math.floor((count/(quiz.length))*100) <= 100 && (
-        <div className="score">Score: {Math.floor((count/(quiz.length))*100)}</div>
-      )}
+
+        <div className="score"><h3>Score: {Math.floor((count/(quiz.length))*100)}</h3></div>
+
+      <div className="entire">
       {currentQuestion && (
         <div className="quiz-container" id="quiz">
           <div className="quiz-info">
@@ -121,12 +120,17 @@ export default function Quiz() {
           {currentIndex !== quiz.length - 1 ? (
             <button onClick={handleNextClick}>Next Question</button>
           ) : (
-            <button type="submit" onClick={handleFinalClick}>
+            <button onClick={handleFinalClick}>
               Final Question
             </button>
           )}
         </div>
       )}
+      </div>
+      <div className="subContainer">
+      {handleFinalClick && <button type="submit" id="submit" onClick={saveFinalScore}>Submit</button>}
+      </div>
+
     </>
   );
 }

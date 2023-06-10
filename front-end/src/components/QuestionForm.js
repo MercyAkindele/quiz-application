@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createQuestion, updateQuestion, readQuestion } from "../api/api";
-
+import "../styles/questionForm.css";
 export default function QuestionForm({ question_id, formType }) {
   const initialFormState = {
     question: "",
@@ -96,7 +96,8 @@ export default function QuestionForm({ question_id, formType }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="formContainer">
+          <form onSubmit={handleSubmit} id="form">
       <div className="form-info">
         <div>
           <label htmlFor="form-question">Your Question:</label>
@@ -173,5 +174,6 @@ export default function QuestionForm({ question_id, formType }) {
         </button>
       </div>
     </form>
+    </div>
   );
 }
