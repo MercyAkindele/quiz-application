@@ -99,7 +99,7 @@ export default function QuestionForm({ question_id, formType }) {
     <div className="formContainer">
           <form onSubmit={handleSubmit} id="form">
       <div className="form-info">
-        <div>
+        <div className="answer-choice">
           <label htmlFor="form-question">Your Question:</label>
           <textarea
             id="form-question"
@@ -153,7 +153,7 @@ export default function QuestionForm({ question_id, formType }) {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="answer-choice">
           <label htmlFor="correct">correct</label>
           <input
             id="correct"
@@ -169,7 +169,7 @@ export default function QuestionForm({ question_id, formType }) {
         <button type="reset" id="reset">
           Reset
         </button>
-        <button type="submit" id="submit">
+        <button type="submit" id="submitButt">
           Submit
         </button>
       </div>

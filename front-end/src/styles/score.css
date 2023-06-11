@@ -1,0 +1,46 @@
+.scoreBoard {
+  display: flex;
+  justify-content: center;
+}
+
+.scoresContainer {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 700px;
+  max-width: 100%;
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+#yourScore {
+  padding-right: 2rem;
+}
+
+.listScores {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#deleteButt {
+  font-family: inherit;
+  font-size: 1.2rem;
+  display: block;
+  padding: 1rem;
+  width: 45%;
+  border-radius: 7px;
+}
+
+@media all and (min-width: 648px) {
+  .listScores {
+    justify-content: space-around;
+  }
+
+  #deleteButt {
+    width: 15%;
+  }
+}

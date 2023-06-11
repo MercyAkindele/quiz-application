@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAllQuestions, deleteQuestion} from "../api/api";
-import {Link} from "react-router-dom"
+import { getAllQuestions, deleteQuestion } from "../api/api";
+import { Link } from "react-router-dom";
+import "../styles/listQuestions.css"
 export default function ListQuestions() {
   const [questions, setQuestions] = useState([]);
   useEffect(() => {
@@ -23,47 +24,58 @@ export default function ListQuestions() {
     };
   }, []);
 
-
-
-  const handleDelete = async(questionId)=>{
+  const handleDelete = async (questionId) => {
     const ac = new AbortController();
-    const confirmDelete = window.confirm("Once this question has been deleted, you cannot retrieve it again.")
-    if(confirmDelete){
-      try{
+    const confirmDelete = window.confirm(
+      "Once this question has been deleted, you cannot retrieve it again."
+    );
+    if (confirmDelete) {
+      try {
         await deleteQuestion(questionId, ac.signal);
-      }catch(error){
-        if(error.name === "AbortError"){
+      } catch (error) {
+        if (error.name === "AbortError") {
           return ac.abort();
-        }else{
-          throw error
+        } else {
+          throw error;
         }
       }
       window.location.reload();
     }
-  }
+  };
 
   return (
     <>
       <h2>Questions</h2>
-      <ul>
-        {Array.isArray(questions) && questions.length > 0 ? (
-          questions.map((question) => (
-            <li key={question.question_id}>
-              {/* display everything except for the answer */}
-              <div>{question.question}</div>
-              <div>{question.answer_a}</div>
-              <div>{question.answer_b}</div>
-              <div>{question.answer_c}</div>
-              <div>{question.answer_d}</div>
-              <button><Link to={`/questions/${question.question_id}/edit`}>Edit</Link></button>
-              <button onClick={() => handleDelete(question.question_id)}>Delete</button>
-            </li>
-
-          ))
-        ) : (
-          <li>No questions found.</li>
-        )}
-      </ul>
+      <div className="theList">
+        <div className="questionList-container">
+          <ul>
+            {Array.isArray(questions) && questions.length > 0 ? (
+              questions.map((question) => (
+                <li key={question.question_id}>
+                  {/* display everything except for the answer */}
+                  <div className="theQuestion">{question.question}</div>
+                  <div className="answers">{question.answer_a}</div>
+                  <div className="answers">{question.answer_b}</div>
+                  <div className="answers">{question.answer_c}</div>
+                  <div className="answers">{question.answer_d}</div>
+                  <div className="buttonCon">
+                  <button className="editButt">
+                    <Link to={`/questions/${question.question_id}/edit`} className="theLink">
+                      Edit
+                    </Link>
+                  </button>
+                  <button onClick={() => handleDelete(question.question_id)} className="deleteButton">
+                    Delete
+                  </button>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <li>No questions found.</li>
+            )}
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

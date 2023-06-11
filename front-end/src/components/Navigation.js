@@ -3,9 +3,9 @@ import "../styles/navigation.css";
 export default function Navigation(){
   return(
     <nav>
-      <div className="title">
+      <Link to="/" className="title">
         <h3>Let's Take A Quiz</h3>
-      </div>
+      </Link>
       <ul className="menu">
         <li><Link to="/questions/new" className="link">Create Quiz</Link></li>
         <li><Link to="/quiz" className="link">Take Quiz</Link></li>

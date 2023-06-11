@@ -16,12 +16,20 @@ body {
 
 
 }
+.answer-choice{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top:1rem;
+  margin-bottom: 1rem;
+  font-size: 18px;
+}
 .formContainer{
   display:flex;
   justify-content: center;
 }
 #form {
-  align-self: center;
+
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
@@ -43,7 +51,7 @@ body {
   width: 100%;
 }
 
-#submit {
+#submitButt {
   background-color: #4370E7;
   border: none;
   color: white;
@@ -65,9 +73,15 @@ body {
   width: 100%;
   padding: 1rem;
 }
-#submit:hover {
+#submitButt:hover {
   background-color: blue;
 }
 #reset:hover{
   background-color: #410891;
+}
+@media all and (min-width: 648px) {
+  .answer-choice{
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

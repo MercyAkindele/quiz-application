@@ -1,0 +1,77 @@
+.theList{
+  display:flex;
+  justify-content:center;
+}
+.theQuestion{
+  font-weight: bold;
+  font-size: 18px;
+}
+.answers{
+  font-size: 18px;
+}
+.questionList-container{
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 700px;
+  max-width: 100%;
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.buttonCon{
+  display:flex;
+  flex-direction: column;
+}
+.editButt{
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.2rem;
+  display: block;
+  margin-right:1rem;
+  padding:1rem;
+  width: 35%;
+  height:2.5rem;
+  border-radius: 7px;
+  text-align: center;
+
+}
+.deleteButton{
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #680ee6;
+  font-family: inherit;
+  font-size: 1.2rem;
+  display: block;
+  margin-top:.5rem;
+  padding: 1rem;
+  width: 35%;
+  height: 2.5rem;
+  border-radius: 7px;
+  text-align: center;
+}
+
+.theLink{
+  text-decoration: none;
+  text-align: center;
+
+}
+@media all and (min-width: 648px) {
+  .editButt{
+    width: 15%;
+    height:3rem;
+  }
+  .deleteButton{
+    margin-top:0;
+    width: 15%;
+    height: 3rem;
+  }
+  .buttonCon{
+    flex-direction: row;
+  }
+}
