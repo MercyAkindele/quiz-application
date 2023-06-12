@@ -15,7 +15,6 @@ export default function Quiz() {
     async function listOfQuestions() {
       try {
         const data = await getAllQuestions(ac.signal);
-        console.log("this is data", data);
         setQuiz(data.questions ? data.questions : []);
       } catch (error) {
         if (error.name === "AbortError") {
@@ -36,10 +35,6 @@ export default function Quiz() {
   };
 
   const handleNextClick = () => {
-    console.log("selectedAnswer is:", selectedAnswer);
-    console.log("quiz is:", quiz);
-    console.log("currentIndex is:", currentIndex);
-
     if (selectedAnswer === quiz[currentIndex].correct) {
       setCount((previousCount) => previousCount + 1);
     }
@@ -53,15 +48,13 @@ export default function Quiz() {
       setCount((count) => count + 1);
     }
     setCurrentIndex((currentIndex) => currentIndex + 1);
-    
+
 
   };
   const saveFinalScore = async () => {
     const ac = new AbortController();
     try {
-      // const finalScore = Math.floor((count / currentIndex) * 100);
       const finalScore = Math.floor((count/(quiz.length))*100);
-
       await postQuizScore({ score: finalScore }, ac.signal);
       navigate("/scores");
     } catch (error) {
@@ -71,9 +64,6 @@ export default function Quiz() {
         throw error;
       }
     }
-    return () => {
-      ac.abort();
-    };
   };
 
   if (quiz.length === 0) {

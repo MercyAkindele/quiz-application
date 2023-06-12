@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "../styles/listQuestions.css"
 export default function ListQuestions() {
   const [questions, setQuestions] = useState([]);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     const ac = new AbortController();
     async function listOfQuestions() {
@@ -22,7 +23,7 @@ export default function ListQuestions() {
     return () => {
       ac.abort();
     };
-  }, []);
+  }, [reload]);
 
   const handleDelete = async (questionId) => {
     const ac = new AbortController();
@@ -32,6 +33,7 @@ export default function ListQuestions() {
     if (confirmDelete) {
       try {
         await deleteQuestion(questionId, ac.signal);
+        setReload(!reload)
       } catch (error) {
         if (error.name === "AbortError") {
           return ac.abort();
@@ -39,7 +41,7 @@ export default function ListQuestions() {
           throw error;
         }
       }
-      window.location.reload();
+      
     }
   };
 

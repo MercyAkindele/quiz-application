@@ -4,14 +4,15 @@ import "../styles/score.css";
 
 export default function ScoreBoard() {
   const [scores, setScores] = useState([]);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     async function listOfScores() {
       const ac = new AbortController();
       try {
         let theScores = await getAllScores(ac.signal);
         setScores(theScores);
-        console.log("this is theScores", theScores);
-        console.log("this is the scores to add to the list", scores);
+
+
       } catch (error) {
         if (error.name === "AbortError") {
           ac.abort();
@@ -19,10 +20,9 @@ export default function ScoreBoard() {
           throw error;
         }
       }
-      return () => ac.abort();
     }
     listOfScores();
-  }, []);
+  }, [reload]);
 
   const handleDelete = async (scoreId) => {
     const ac = new AbortController();
@@ -32,17 +32,17 @@ export default function ScoreBoard() {
     if (confirmDeleteOfScore) {
       try {
         await deleteScore(scoreId, ac.signal);
+        setReload(!reload);
       } catch (error) {
         if (error.name === "AbortError") {
-          return ac.abort();
+          ac.abort();
         } else {
           throw error;
         }
       }
-      window.location.reload();
     }
   };
-  console.log("this is scores before the return statement", scores);
+
 
   return (
     <div className="scoreBoard">

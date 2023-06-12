@@ -1,0 +1,25 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:5000
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL_DEVELOPMENT=postgresql://postgres:postgres@database/postgres
+    depends_on:
+      - database
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres

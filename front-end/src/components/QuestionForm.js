@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 import { createQuestion, updateQuestion, readQuestion } from "../api/api";
 import "../styles/questionForm.css";
 export default function QuestionForm({ question_id, formType }) {
@@ -11,6 +12,7 @@ export default function QuestionForm({ question_id, formType }) {
     correct: "",
   };
   const [formData, setFormData] = useState({ ...initialFormState });
+  const navigate = useNavigate();
 
   useEffect(()=>{
     async function readQuestionInfo(){
@@ -25,7 +27,6 @@ export default function QuestionForm({ question_id, formType }) {
         }
       }catch(error){
         if(error.name === "AbortError"){
-          console.log("Aborted")
           ac.abort();
         }else{
           throw error;
@@ -39,30 +40,28 @@ export default function QuestionForm({ question_id, formType }) {
   const handleChange = (e) => {
     let stateValue = e.target.value;
     setFormData({ ...formData, [e.target.name]: stateValue });
-    console.log("this is formdata", formData)
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     const ac = new AbortController();
     e.preventDefault();
-    async function addQuestionToQuiz() {
       try {
         if (formType === "create") {
           await createFunction();
+          setFormData(initialFormState);
+
         } else if (formType === "edit") {
           await editFunction();
-          console.log("this is formdata after waiting for edit function", formData)
+          navigate("/questions");
+
         }
       } catch (error) {
         if (error.name === "AbortError") {
-          console.log("Aborted");
+          ac.abort();
         } else {
           throw error;
         }
       }
-    }
-
-    addQuestionToQuiz();
     return () => ac.abort();
   };
 
@@ -72,27 +71,24 @@ export default function QuestionForm({ question_id, formType }) {
       await createQuestion(formData, ac.signal);
     } catch (error) {
       if (error.name === "AbortError") {
-        console.log("Aborted");
+        ac.abort();
       } else {
         throw error;
       }
     }
-    return () => ac.abort();
   };
 
   const editFunction = async () => {
     const ac = new AbortController();
     try {
-      console.log("this is formdata before posting update", formData)
       await updateQuestion(formData, ac.signal);
     } catch (error) {
       if (error.name === "AbortError") {
-        console.log("Aborted!");
+        ac.abort();
       } else {
         throw error;
       }
     }
-    return ac.abort();
   };
 
   return (
