@@ -23,10 +23,6 @@ export default function LetsTakeAQuiz() {
               Then you may proceed to take the quiz and see how much you
               remember
             </li>
-            <li>
-              If you have not created a quiz, you will get a dummy quiz to
-              complete if you navigate to take a quiz
-            </li>
             <li>Enjoy!</li>
           </ul>
         </div>

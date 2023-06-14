@@ -2,6 +2,22 @@
 
 ![quizapp screenshot](./image/Screenshot%20(80).png)
 
+## Overview
+
+This project was created with the purpose of practicing and learning various technologies including React, Node, Express, Knex, PostgreSQL, and Docker.
+
+The application is a quiz platform that allows users to create, update, and delete questions for a quiz. It utilizes a client-server architecture, with React handling the frontend, Node.js and Express as the backend, and PostgreSQL serving as the database.
+
+The primary motivation behind this project was to gain hands-on experience and deepen understanding of these technologies.
+
+## Key Features
+
+- Containerization of the application using Docker, enabling consistent deployment across different environments.
+- User-friendly interface for creating, updating, and deleting quiz questions.
+- Seamless integration of React frontend with Node.js, Express, and PostgreSQL backend.
+- RESTful API endpoints for handling HTTP requests (GET, POST, PUT, DELETE) related to quiz questions.
+- Utilization of Knex.js query builder for simplified database operations.
+
 ## Running application
 
 ```bash
