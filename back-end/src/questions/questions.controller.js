@@ -71,6 +71,7 @@ async function update(req,res){
     data:await questionsService.update(updatedQuestion,res.locals.question.question_id ),
   });
 }
+
 async function destroy(req, res, next) {
   console.log(res.locals.question.question_id)
   try {
@@ -103,5 +104,6 @@ module.exports = {
   delete:[
     asyncErrorBoundary(questionExists),
     asyncErrorBoundary(destroy),
-  ]
+  ],
+ 
 }

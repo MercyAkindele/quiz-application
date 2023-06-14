@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
-import { createQuestion, updateQuestion, readQuestion } from "../api/api";
+import { createQuestion, updateQuestion, readQuestion} from "../api/api";
 import "../styles/questionForm.css";
 export default function QuestionForm({ question_id, formType }) {
   const initialFormState = {
@@ -13,6 +13,7 @@ export default function QuestionForm({ question_id, formType }) {
   };
   const [formData, setFormData] = useState({ ...initialFormState });
   const navigate = useNavigate();
+
 
   useEffect(()=>{
     async function readQuestionInfo(){
@@ -150,12 +151,15 @@ export default function QuestionForm({ question_id, formType }) {
           />
         </div>
         <div className="answer-choice">
-          <label htmlFor="correct">correct</label>
+          <label htmlFor="correct" >correct</label>
           <input
             id="correct"
             type="text"
             name="correct"
             required={true}
+            pattern="^answer_[a-d]$"
+            title="Correct field should be in the form of answer_X, where X is a, b, c, or d."
+            placeholder="answer_a"
             value={formData.correct}
             onChange={handleChange}
           />

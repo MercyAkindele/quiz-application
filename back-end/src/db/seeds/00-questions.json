@@ -1,0 +1,34 @@
+[
+  {
+    "question": "What is 1+1?",
+    "answer_a": "1",
+    "answer_b": "0",
+    "answer_c": "2",
+    "answer_d": "30",
+    "correct": "answer_c"
+  },
+  {
+    "question": "What is a^2+b^2?",
+    "answer_a": "d^3",
+    "answer_b": "d^2",
+    "answer_c": "e^3",
+    "answer_d": "c^2",
+    "correct": "answer_d"
+  },
+  {
+    "question": "What is 4+4?",
+    "answer_a": "8",
+    "answer_b": "16",
+    "answer_c": "32",
+    "answer_d": "64",
+    "correct": "answer_a"
+  },
+  {
+    "question": "What comes after the letter J in the English alphabet?",
+    "answer_a": "C",
+    "answer_b": "K",
+    "answer_c": "H",
+    "answer_d": "L",
+    "correct": "answer_b"
+  }
+]

@@ -22,6 +22,7 @@ function update(updatedQuestion, question_id){
     .update(updatedQuestion, "*")
     .then((upQuestion) => upQuestion[0]);
 }
+
 function destroy(question_id){
   return knex("questions")
     .where({question_id})

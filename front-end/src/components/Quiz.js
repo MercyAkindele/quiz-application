@@ -75,7 +75,6 @@ export default function Quiz() {
   return (
     <>
 
-
         <div className="score"><h3>Score: {Math.floor((count/(quiz.length))*100)}</h3></div>
 
       <div className="entire">
