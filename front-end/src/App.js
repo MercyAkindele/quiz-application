@@ -3,10 +3,10 @@ import RouteLayout from "./layout/RouteLayout";
 function App() {
   return (
     <>
-    <Navigation />
-    <RouteLayout />
+      <Navigation />
+      <RouteLayout />
     </>
-  )
+  );
 }
 
 export default App;

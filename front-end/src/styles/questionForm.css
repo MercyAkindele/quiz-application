@@ -16,18 +16,21 @@ body {
 
 
 }
-.answer-choice{
-  display:flex;
+
+.answer-choice {
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top:1rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   font-size: 18px;
 }
-.formContainer{
-  display:flex;
+
+.formContainer {
+  display: flex;
   justify-content: center;
 }
+
 #form {
 
   background-color: white;
@@ -73,14 +76,17 @@ body {
   width: 100%;
   padding: 1rem;
 }
+
 #submitButt:hover {
   background-color: blue;
 }
-#reset:hover{
+
+#reset:hover {
   background-color: #410891;
 }
+
 @media all and (min-width: 648px) {
-  .answer-choice{
+  .answer-choice {
     flex-direction: row;
     justify-content: space-between;
   }

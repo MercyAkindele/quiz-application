@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const controller = require("./questions.controller");
-const methodNotAllowed = require("../errors/methodNotAllowed")
+const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
   .route("/")
@@ -13,6 +13,5 @@ router
   .put(controller.update)
   .delete(controller.delete)
   .all(methodNotAllowed);
-
 
 module.exports = router;

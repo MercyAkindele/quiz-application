@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllQuestions, deleteQuestion } from "../api/api";
 import { Link } from "react-router-dom";
-import "../styles/listQuestions.css"
+import "../styles/listQuestions.css";
 export default function ListQuestions() {
   const [questions, setQuestions] = useState([]);
   const [reload, setReload] = useState(false);
@@ -33,7 +33,7 @@ export default function ListQuestions() {
     if (confirmDelete) {
       try {
         await deleteQuestion(questionId, ac.signal);
-        setReload(!reload)
+        setReload(!reload);
       } catch (error) {
         if (error.name === "AbortError") {
           return ac.abort();
@@ -41,7 +41,6 @@ export default function ListQuestions() {
           throw error;
         }
       }
-      
     }
   };
 
@@ -61,14 +60,20 @@ export default function ListQuestions() {
                   <div className="answers">{question.answer_c}</div>
                   <div className="answers">{question.answer_d}</div>
                   <div className="buttonCon">
-                  <button className="editButt">
-                    <Link to={`/questions/${question.question_id}/edit`} className="theLink">
-                      Edit
-                    </Link>
-                  </button>
-                  <button onClick={() => handleDelete(question.question_id)} className="deleteButton">
-                    Delete
-                  </button>
+                    <button className="editButt">
+                      <Link
+                        to={`/questions/${question.question_id}/edit`}
+                        className="theLink"
+                      >
+                        Edit
+                      </Link>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(question.question_id)}
+                      className="deleteButton"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </li>
               ))

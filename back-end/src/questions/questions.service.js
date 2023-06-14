@@ -1,38 +1,33 @@
 const knex = require("../db/connection");
 
-function list(){
-  return knex("questions").select("*")
+function list() {
+  return knex("questions").select("*");
 }
-function create(question){
+function create(question) {
   return knex("questions")
     .insert(question)
     .returning("*")
-    .then((createdRecord)=> createdRecord[0]);
+    .then((createdRecord) => createdRecord[0]);
 }
-function read(question_id){
+function read(question_id) {
+  return knex("questions").select("*").where({ question_id }).first();
+}
+function update(updatedQuestion, question_id) {
   return knex("questions")
     .select("*")
-    .where({question_id})
-    .first();
-}
-function update(updatedQuestion, question_id){
-  return knex("questions")
-    .select("*")
-    .where({question_id})
+    .where({ question_id })
     .update(updatedQuestion, "*")
     .then((upQuestion) => upQuestion[0]);
 }
 
-function destroy(question_id){
-  return knex("questions")
-    .where({question_id})
-    .del();
+function destroy(question_id) {
+  return knex("questions").where({ question_id }).del();
 }
 
-module.exports ={
+module.exports = {
   list,
   create,
   read,
   update,
-  delete:destroy,
-}
+  delete: destroy,
+};

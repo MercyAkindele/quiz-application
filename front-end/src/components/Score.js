@@ -11,8 +11,6 @@ export default function ScoreBoard() {
       try {
         let theScores = await getAllScores(ac.signal);
         setScores(theScores);
-
-
       } catch (error) {
         if (error.name === "AbortError") {
           ac.abort();
@@ -42,7 +40,6 @@ export default function ScoreBoard() {
       }
     }
   };
-
 
   return (
     <div className="scoreBoard">

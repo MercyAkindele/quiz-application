@@ -1,15 +1,18 @@
-.theList{
-  display:flex;
-  justify-content:center;
+.theList {
+  display: flex;
+  justify-content: center;
 }
-.theQuestion{
+
+.theQuestion {
   font-weight: bold;
   font-size: 18px;
 }
-.answers{
+
+.answers {
   font-size: 18px;
 }
-.questionList-container{
+
+.questionList-container {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
@@ -21,26 +24,29 @@
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-.buttonCon{
-  display:flex;
+
+.buttonCon {
+  display: flex;
   flex-direction: column;
 }
-.editButt{
+
+.editButt {
   border: none;
   color: white;
   cursor: pointer;
   font-family: inherit;
   font-size: 1.2rem;
   display: block;
-  margin-right:1rem;
-  padding:1rem;
+  margin-right: 1rem;
+  padding: 1rem;
   width: 35%;
-  height:2.5rem;
+  height: 2.5rem;
   border-radius: 7px;
   text-align: center;
 
 }
-.deleteButton{
+
+.deleteButton {
   border: none;
   color: white;
   cursor: pointer;
@@ -48,7 +54,7 @@
   font-family: inherit;
   font-size: 1.2rem;
   display: block;
-  margin-top:.5rem;
+  margin-top: .5rem;
   padding: 1rem;
   width: 35%;
   height: 2.5rem;
@@ -56,22 +62,25 @@
   text-align: center;
 }
 
-.theLink{
+.theLink {
   text-decoration: none;
   text-align: center;
 
 }
+
 @media all and (min-width: 648px) {
-  .editButt{
-    width: 15%;
-    height:3rem;
-  }
-  .deleteButton{
-    margin-top:0;
+  .editButt {
     width: 15%;
     height: 3rem;
   }
-  .buttonCon{
+
+  .deleteButton {
+    margin-top: 0;
+    width: 15%;
+    height: 3rem;
+  }
+
+  .buttonCon {
     flex-direction: row;
   }
 }

@@ -3,47 +3,54 @@
 * {
   box-sizing: border-box;
 }
-.title{
+
+.title {
   text-decoration: none;
 }
-nav{
-  width:100%;
-  display:flex;
+
+nav {
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
-.menu{
-  display:flex;
+
+.menu {
+  display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   list-style: none;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 
 }
 
-.link{
+.link {
   text-decoration: none;
   font-size: 1.15rem;
   margin: 1rem 0;
 }
+
 @media all and (min-width: 648px) {
-  nav{
-    height:10%;
-    width:100%;
+  nav {
+    height: 10%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-around;
-    margin-top:2rem;
-    margin-bottom:2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
-  .menu{
+
+  .menu {
     flex-direction: row;
-    justify-content:space-between;
+    justify-content: space-between;
   }
-  .link{
+
+  .link {
     font-size: 1rem;
   }
 

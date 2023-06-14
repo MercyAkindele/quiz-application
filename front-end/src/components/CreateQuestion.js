@@ -1,8 +1,8 @@
-import QuestionForm from "./QuestionForm"
-export default function CreateQuestion(){
-  return(
+import QuestionForm from "./QuestionForm";
+export default function CreateQuestion() {
+  return (
     <>
-      <QuestionForm formType="create"/>
+      <QuestionForm formType="create" />
     </>
-  )
+  );
 }

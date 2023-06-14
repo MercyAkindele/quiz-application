@@ -8,9 +8,6 @@ router
   .post(controller.create)
   .all(methodNotAllowed);
 
-router
-  .route("/:score_id")
-  .delete(controller.delete)
-  .all(methodNotAllowed);
+router.route("/:score_id").delete(controller.delete).all(methodNotAllowed);
 
-  module.exports = router;
+module.exports = router;
