@@ -9,6 +9,12 @@
 # start full stack app using docker compose
 docker-compose up --build
 
+```
+
+Optionally, load sample data.
+
+```bash
+
 # optional: create sample data if you want an existing quiz using seed data
 # in a new terminal
 docker exec -i -t quiz-application_backend_1 bash

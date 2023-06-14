@@ -48,9 +48,8 @@ export default function Quiz() {
       setCount((count) => count + 1);
     }
     setCurrentIndex((currentIndex) => currentIndex + 1);
-
-
   };
+  
   const saveFinalScore = async () => {
     const ac = new AbortController();
     try {
