@@ -98,3 +98,15 @@ npm install
 npm start
 
 ```
+
+## Build container image
+
+Commands to build frontend and backend container images.
+
+```bash
+
+docker build --tag quiz-app-frontend --file front-end/Dockerfile .
+
+docker build --tag quiz-app-backend --file back-end/Dockerfile .
+
+```

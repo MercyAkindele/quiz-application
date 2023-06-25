@@ -5,6 +5,7 @@ import CreateQuestion from "../components/CreateQuestion";
 import EditQuestion from "../components/EditQuestion";
 import Quiz from "../components/Quiz";
 import ScoreBoard from "../components/Score";
+import NoMatch from "../components/NoMatch";
 
 export default function RouteLayout() {
   return (
@@ -15,6 +16,7 @@ export default function RouteLayout() {
       <Route path="/questions/:question_id/edit" element={<EditQuestion />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/scores" element={<ScoreBoard />} />
+      <Route path="*" element={<NoMatch/>}/>
     </Routes>
   );
 }

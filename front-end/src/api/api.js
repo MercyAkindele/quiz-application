@@ -73,11 +73,15 @@ export async function postQuizScore(data, signal) {
   };
   return await fetchJson(url, options, data);
 }
+
 //get a list of all scores
 export async function getAllScores(signal) {
   const url = `${API_BASE_URL}/scores`;
   return await fetchJson(url, { signal }, []);
 }
+
+
+
 export async function deleteScore(score_id, signal) {
   const url = `${API_BASE_URL}/scores/${score_id}`;
   const options = {
