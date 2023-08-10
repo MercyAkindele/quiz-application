@@ -77,7 +77,7 @@ npx knex migrate:latest
 npx knex seed:run
 
 # start backend app
-npm start
+npm run start-dev
 
 ```
 
